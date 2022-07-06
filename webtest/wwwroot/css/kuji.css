@@ -1,0 +1,124 @@
+﻿/*あみだくじデータの設定領域*/
+.kuji-items {
+    display: grid; /*グリッドレイアウトにする*/
+    grid-auto-columns: 100px; /*1列あたりの幅 100px*/
+    grid-auto-rows: 36px; /*1行あたりの高さ 30px*/
+    background-color: #99CCCC; /*背景色*/
+    margin: 0px auto; /*中央寄せ*/
+    padding: 10px;
+}
+
+    /*あみだくじデータの設定領域の入力項目*/
+    .kuji-items > input {
+        height: 30px; /*高さ*/
+    }
+
+/*くじを作るボタン*/
+.create_btn {
+    font-weight: bold; /*太文字*/
+    padding: 0.25em 0.5em; /*文字余白*/
+    text-decoration: none; /*文字装飾なし*/
+    color: #FFF; /*文字色*/
+    background: #008080; /*背景色*/
+    margin-left: 10px; /*左側余白*/
+    height: 30px; /*高さ*/
+}
+
+/*くじコンテナ*/
+.kuji-container {
+    height: 100px; /*高さ*/
+    background-color: #CBFFD3; /*背景色*/
+}
+
+・・・省略・・・
+/*タイトル*/
+.kuji-container > h1 {
+    color: #000000; /*文字色*/
+    background: #E6FFE9; /*背景色*/
+    border-bottom: solid 3px #0000FF; /*下線*/
+}
+
+/*説明文*/
+.kuji-container > p {
+    color: #000000; /*文字色*/
+    border-bottom: solid 3px #0000FF; /*下線*/
+}
+
+/*あみだくじの領域*/
+.kuji-line {
+    display: grid; /*グリッドレイアウトにする*/
+    grid-auto-columns: minmax(10px, auto); /*1列あたりの幅 10px以上*/
+    grid-auto-rows: minmax(25px, auto); /*1行あたりの高さ 25px以上*/
+    background-color: #99CCCC; /*背景色*/
+    position: relative; /*後述の「あみだを隠すためのマスク領域」の基準点とするためにrelativeを指定*/
+}
+
+    /*あたり・はずれ等の結果*/
+    .kuji-line > div {
+        margin: 0px auto; /*中央寄せ*/
+    }
+
+/*縦線*/
+.vertical-line {
+    background-color: #000000; /*背景色*/
+    width: 1px; /*幅*/
+    height: auto; /*高さ*/
+    margin: 0px auto; /*中央寄せ*/
+}
+
+/*横線*/
+.horizontal-line {
+    background-color: #000000; /*背景色*/
+    width: 100%; /*幅*/
+    height: 1px; /*高さ*/
+    margin-left: 50%; /*左マージン 縦線を中央寄せしているため、幅50%分をずらして縦線の位置から始める*/
+}
+
+/*くじを辿る時の縦線*/
+.vertical-line.follow {
+    background-color: #FF0000; /*背景色*/
+    width: 3px; /*幅*/
+}
+
+/*くじを辿る時の横線*/
+.horizontal-line.follow {
+    background-color: #FF0000; /*背景色*/
+    height: 3px; /*幅*/
+}
+
+/*選択肢ボタン*/
+.select-btn {
+    color: #0000FF; /*文字色*/
+    width: 25px; /*幅*/
+    height: 25px; /*高さ*/
+    border-radius: 50%; /*角丸 50%で円になる*/
+    border: solid 2px #0000FF; /*枠線*/
+    text-align: center; /*文字の中央寄せ*/
+    margin: 0px auto; /*中央寄せ*/
+}
+
+    /*選択肢ボタンのマウスオーバー時*/
+    .select-btn:hover {
+        background-color: #6495ED; /*背景色*/
+    }
+
+    /*選択したボタン*/
+    .select-btn.selected {
+        color: #FF0000; /*文字色*/
+        border: solid 2px #FF0000; /*枠線*/
+        background-color: #FFDDFF; /*背景色*/
+    }
+
+/*あみだを隠すためのマスク領域*/
+.mask {
+    position: absolute; /*「あみだくじの領域」を基準点とするためにabsoluteを指定*/
+    width: 90%; /*幅 「あみだくじの領域」の90%の幅*/
+    height: 76%; /*高さ 「あみだくじの領域」の76%の高さ*/
+    top: 12%; /*上位置 「あみだくじの領域」の上から12%の位置*/
+    left: 5%; /*左位置 「あみだくじの領域」の左から5%の位置*/
+    text-align: center; /*文字の中央寄せ*/
+    border: solid 2px #808080; /*枠線*/
+    background-color: #E6FFE9; /*背景色*/
+    background-image: radial-gradient(#808080 10%, transparent 20%), radial-gradient(#808080 10%, transparent 20%); /*背景画像*/
+    background-size: 10px 10px; /*背景画像のサイズ(幅 高さ)*/
+}

@@ -1,0 +1,131 @@
+﻿@model Amidakuji.Models.KujiModel
+
+@{
+    ViewData["Title"] = "あみだくじ";
+}
+
+<form method="post" asp-controller="Kuji" asp-action="Index">
+    <div class="kuji-container">
+        <h1>@Model.Title</h1>
+        <p>くじの数は、@Model.NumberOfKuji 本です。</p>
+
+        <!--あみだくじの領域(グリッドレイアウト)-->
+        <div class="kuji-line">
+            @{
+                var rd = new Random();
+                var rcount = Math.Max(20, Model.Result.Count * 4);   // グリッドレイアウトの行数
+
+                // 行番号リスト(4行目以降、全行数 - 上下のボタンや結果表示域で使用している行を除く行数)
+                var rows = Enumerable.Range(4, rcount - 6).ToList();
+
+                // 列ごとに横線の行番号を保持する用のリスト
+                var lines = new List<List<int>>();
+
+                <!--人数の分だけループ-->
+                for (var i = 1; i < Model.Result.Count + 1; i++)
+                {
+                    <!--選択肢ボタン-->
+                    <button class="select-btn" style="grid-row:2;grid-column:@i" asp-route-id="@i">@i</button>
+
+                    <!--縦線-->
+                    <div class="vertical-line" style="grid-row:3 / span @(rcount - 4);grid-column:@i"></div>
+
+                    var hlines = new List<int>();   // 横線を行番号を保持する用
+
+                    <!--横線-->
+                    if (i < Model.NumberOfKuji)
+                    {
+                        var hcount = rd.Next(1, rcount / 4);   // 横線の数
+
+                        for (var j = 0; j < hcount; j++)
+                        {
+                            if (rows.Count <= 0) break; // 行が足りなくなったら終了
+
+                            int rno = rows[rd.Next(0, rows.Count - 1)]; // 横線を引く行番号
+                            rows.Remove(rno);   // 重複する行番号を使わないようにするため
+
+                            <p class="horizontal-line" style="grid-row:@rno;grid-column:@i"></p>
+
+                            hlines.Add(rno);
+                        }
+                    }
+                    lines.Add(hlines);  // 列ごとに横線の行番号を保持する
+
+                    <!--結果-->
+                    <!--横幅を揃えるため、PadRightで5文字分に揃える-->
+                    <div style="grid-row:@(rcount - 1);grid-column:@i">@Model.Result[i - 1].Item.PadRight(5, '　')</div>
+                }
+
+                <!--1行分を余白とする-->
+                <div style="grid-row:@rcount;grid-column:1 / span @Model.NumberOfKuji"></div>
+
+                if (Model.SelectId > 0) // 番号を選択した場合
+                {
+                    // 選択した番号の列から始める
+                    var currentCol = Model.SelectId - 1;
+                    // 縦線が始まる行から始める
+                    var currentRow = 3;
+
+                    while (currentRow < rcount - 1)
+                    {
+                        // 現在の列の右側に延びる横線のうち、現在の行より下にある横線を取得する
+                        var rightRow = (currentCol == Model.NumberOfKuji) ? null : lines[currentCol].Where(c => currentRow < c).ToList();
+                        // 現在の列の左側に延びる横線のうち、現在の行より下にある横線を取得する
+                        var leftRow = (0 == currentCol) ? null : lines[currentCol - 1].Where(c => currentRow < c).ToList();
+
+                        // 右への線のうち、一番上にある横線を取得する
+                        var rightMin = (rightRow != null && rightRow.Count > 0) ? rightRow.Min() : 999;
+                        // 左への線のうち、一番上にある横線を取得する
+                        var leftMin = (leftRow != null && leftRow.Count > 0) ? leftRow.Min() : 999;
+
+                        if (rightMin < leftMin)
+                        {
+                            // 右へ進む
+
+                            // 現在の行から右へ進む横線までの縦線
+                            <div class="vertical-line follow" style="grid-row:@currentRow / span @Math.Max(1, (rightMin - currentRow));grid-column:@(currentCol + 1)"></div>
+                            // 右への横線
+                            <p class="horizontal-line follow" style="grid-row:@rightMin;grid-column:@(currentCol + 1)"></p>
+
+                            currentCol++;   // 右へ進んだ
+                            currentRow = (currentRow == rightMin) ? currentRow + 1 : rightMin;
+                        }
+                        else if (rightMin > leftMin)
+                        {
+                            // 左へ進む
+
+                            // 現在の行から左へ進む横線までの縦線
+                            <div class="vertical-line follow" style="grid-row:@currentRow / span @Math.Max(1, (leftMin - currentRow));grid-column:@(currentCol + 1)"></div>
+
+                            currentCol--;   // 左へ進んだ
+
+                            // 左への横線
+                            <p class="horizontal-line follow" style="grid-row:@leftMin;grid-column:@(currentCol + 1)"></p>
+                            currentRow = (currentRow == leftMin) ? currentRow + 1 : leftMin;
+                        }
+                        else
+                        {
+                            <div class="vertical-line follow" style="grid-row:@currentRow;grid-column:@(currentCol + 1)"></div>
+                            currentRow++;
+                        }
+                    }
+                }
+            }
+
+            <!--あみだを隠すためのマスク領域-->
+            @if (Model.SelectId == 0)
+            {
+                <div class="mask"></div>
+            }
+        </div>
+    </div>
+
+    <!--モデルをコントローラーへ通知-->
+    <input type="hidden" asp-for="Title" value="@Model.Title" />
+    <input type="hidden" asp-for="NumberOfKuji" value="@Model.NumberOfKuji" />
+    @for (var i = 0; i < Model.Result.Count; i++)
+    {
+        <input type="hidden" asp-for="Result[i].Item" value="@Model.Result[i].Item" />
+    }
+    <input type="hidden" asp-for="SelectId" value="@Model.SelectId" />
+</form>

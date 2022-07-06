@@ -1,0 +1,75 @@
+﻿@model blog.Models.BlogModel
+@{
+    ViewData["Title"] = "blog";
+}
+
+<div>
+    <h1>掲示板　　【TOP】</h1>
+</div>
+<form method="post" asp-controller="Blog" asp-action="list">
+    <div class="next">
+        <input name="list" value="管理画面へ" type="submit" id="form_list" />
+    </div>
+</form>
+<form method="post" asp-controller="Blog" asp-action="save">
+    <input name="id" value="@Model.Id" type="text" class="hidden" />
+    <label for="form_name">投稿者</label>
+    <input name="name" value="@Model.Name" type="text" id="form_name" />
+    <p id="none_input_name_m" style="color: red; display: none; ">名前を入力してください</p>
+    <p id="none_input_name_m_1" style="color: red; display: none; ">名前は１０文字以内です</p>
+
+    <label for="form_message">内容</label>
+    <textarea name="message" id="form_message">@Model.Message</textarea>
+    <p id="none_input_message_m" style="color: red; display: none; ">内容を入力してください</p>
+    <p id="none_input_message_m_1" style="color: red; display: none; ">内容は１２０文字以内です</p>
+
+    <div class="info">
+        <p id="regymd">
+            投稿時間：  @Model.Regymd
+        </p>
+        <p id="upymd">
+            編集時間：  @Model.Upymd
+        </p>
+    </div>
+
+    <div class="actions">
+        <input name="submit" value="投稿" type="submit" id="form_submit"/>
+    </div>
+</form>
+    <div id="hr"></div>
+    <section>
+        <ul>
+            @if (Model.Result != null)
+            {
+                <!--人数の分だけループ-->
+                for (var i = 0; i < Model.Result.Count; i++)
+                {
+                    <li>
+                        <div>
+                            <p class="hidden">
+                                ID：@Model.Result[i].Item._id
+                            </p>
+                            <p id="mes">
+                                内容：@Model.Result[i].Item.message
+                            </p>
+                            <div class="info">
+                                <p>
+                                    投稿者：@Model.Result[i].Item.name
+                                </p>
+                                <p>
+                                    投稿時間：@Model.Result[i].Item.regymd
+                                </p>
+                                <p>
+                                    編集時間：@Model.Result[i].Item.upymd
+
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+        </ul>
+    </section>
+
+
+

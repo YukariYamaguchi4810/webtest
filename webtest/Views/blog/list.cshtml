@@ -1,0 +1,52 @@
+﻿@model blog.Models.BlogModel
+@{
+    ViewData["Title"] = "list";
+}
+    <h1>掲示板　　【管理画面】</h1>
+    <form method="post" asp-controller="Blog" asp-action="list" id="top">
+        <div class="next">
+            <!-- <?php //echo Form::open('welcome/list') ?> -->
+            <input name="top" value="ＴＯＰへ戻る" type="submit" id="form_top" asp-route-name="top" />
+        </div>
+        
+    </form>
+    <p id="del"></p>
+    <section>
+        <ul>
+            @if (Model.Result != null)
+            {
+
+                <!--投稿数だけループ-->
+                @for (var i = 0; i < Model.Result.Count; i++)
+                {
+                    <li>
+                        <div>
+                            <div id="list_main">
+
+                                <p id="list_mes">
+                                    内容：@Model.Result[i].Item.message
+                                </p>
+                                <form method="post" asp-controller="Blog" asp-action="list" id="list_form">
+                                    <input name="id" value="@Model.Result[i].Item._id" type="text" class="hidden" />
+                                    <input name="up" value="編集" type="submit" class="up_del" id="btn_up_@i" asp-route-name="update" />
+                                    <input name="del" value="削除" type="submit" class="up_del" id="btn_del_@i" asp-route-name="delete" />
+                                </form>
+                            </div>
+                            <div class="info">
+                                <p>
+                                    投稿者：@Model.Result[i].Item.name
+                                </p>
+                                <p>
+                                    投稿時間：@Model.Result[i].Item.regymd
+                                </p>
+                                <p>
+                                    編集時間：@Model.Result[i].Item.upymd
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+            }
+            </ul>
+    </section>
+

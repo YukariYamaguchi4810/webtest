@@ -1,0 +1,130 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/*ここから下が追記したもの*/
+
+h1 {
+    margin-left: 30px;
+    font-weight: normal;
+    color: gray;
+}
+
+ul {
+    list-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
+input#form_name, #name_err {
+    display: block;
+    width: 400px;
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+input#form_submit, #form_list {
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+textarea {
+    display: block;
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-bottom: 5px;
+    float: none;
+    width: 700px;
+    height: 100px;
+}
+
+div.next,.actions {
+    width: 800px;
+/*    outline: solid greenyellow; */
+    margin-left: 30px;
+    padding-left: 20px;
+}
+
+div#hr {
+    width: 950px;
+    height: 10px;
+    border-bottom: double gray;
+    margin-bottom:30px; 
+}
+
+div.info {
+    display: flex;
+    margin-top: 0px;
+}
+
+    div.info p {
+        width: 300px;
+        margin-top: 5px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+
+li > div {
+    width: 900px;
+    border-bottom: solid gray;
+}
+
+.icon-exclamation-sign {
+    color: red;
+}
+
+div#main {
+    display: flex;
+}
+
+input#form_top {
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+p#mes {
+    width: 800px;
+    margin-bottom: 5px;
+}
+
+div#list_main {
+    display: flex;
+/*    outline: solid orange;*/
+}
+
+p#list_mes {
+    width: 800px;
+    height: 80px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+/*    outline: solid greenyellow;*/
+}
+
+input.up_del {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+section {
+    margin-top: 10px;
+}

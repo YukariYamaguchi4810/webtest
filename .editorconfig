@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8602: null 参照の可能性があるものの逆参照です。
+dotnet_diagnostic.CS8602.severity = suggestion

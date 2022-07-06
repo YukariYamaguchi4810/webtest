@@ -1,0 +1,63 @@
+﻿@model Amidakuji.Models.KujiModel
+
+@{
+    ViewData["Title"] = "あみだくじ";
+}
+
+<style>
+    /*あみだくじデータの設定領域*/
+    .kuji-items {
+        display: grid; /*グリッドレイアウトにする*/
+        grid-auto-columns: 100px; /*1列あたりの幅 100px*/
+        grid-auto-rows: 36px; /*1行あたりの高さ 30px*/
+        background-color: #99CCCC; /*背景色*/
+        margin: 0px auto; /*中央寄せ*/
+        padding: 10px;
+    }
+
+        /*あみだくじデータの設定領域の入力項目*/
+        .kuji-items > input {
+            height: 30px; /*高さ*/
+        }
+
+    /*くじを作るボタン*/
+    .create_btn {
+        font-weight: bold;
+        padding: 0.25em 0.5em;
+        text-decoration: none;
+        color: #FFF;
+        background: #008080;
+        margin-left: 10px;
+        height: 30px; /*高さ*/
+    }
+</style>
+
+<form method="post" asp-controller="Home" asp-action="Index">
+    <div class="kuji-items">
+        <!--タイトル入力欄-->
+        <label style="grid-row:1;grid-column:1">タイトル : </label>
+        <input type="text" asp-for="Title" value="@Model.Title" style="grid-row:1;grid-column:2 / span 3" />
+
+        <!--くじの数入力欄-->
+        <label style="grid-row:2;grid-column:1">くじの数 : </label>
+        <input type="text" asp-for="NumberOfKuji" value="@Model.NumberOfKuji" style="grid-row:2;grid-column:2" />
+
+        <!--結果入力欄を増減するボタン-->
+        <button class="create_btn" style="grid-row:2;grid-column:5 / span 2" asp-route-name="set">結果を設定する</button>
+
+        <!--結果入力欄-->
+        <label style="grid-row:3;grid-column:1">結果 : </label>
+        @for (var i = 0; i < @Model.Result.Count; i++)
+        {
+            <input type="text" asp-for="Result[i].Item" value="@Model.Result[i].Item" style="grid-row:@(i + 3);grid-column:2 / span 3" />
+        }
+
+        <!--あみだくじ作成ボタン-->
+        <button class="create_btn" style="grid-row:@(Model.Result.Count + 2);grid-column:5 / span 2" asp-route-name="create">くじを作る</button>
+
+        <!--入力エラー表示欄-->
+        <div asp-validation-summary="All" class="text-danger" style="grid-row:@(Model.Result.Count + 3);grid-column:2 / span 5"></div>
+    </div>
+</form>
+
+

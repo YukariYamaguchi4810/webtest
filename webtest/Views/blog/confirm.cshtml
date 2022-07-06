@@ -1,0 +1,39 @@
+﻿@model blog.Models.BlogModel
+@{
+    ViewData["Title"] = "確認";
+}
+<div>
+    <h2>削除してよろしいですか？</h2>
+</div>
+<section>
+    <ul>
+        <li>
+            <div>
+                <div id="list_main">
+
+                    <p id="list_mes">
+                        内容：@Model.Message
+                    </p>
+                </div>
+                <div class="info">
+                    <p>
+                        投稿者：@Model.Name
+                    </p>
+                    <p>
+                        投稿時間：@Model.Regymd
+                    </p>
+                    <p>
+                        編集時間：@Model.Upymd
+                    </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <form method="post" asp-controller="Blog" asp-action="delete">
+        <input name="id" value="@Model.Id" type="text" class="hidden" />
+        <input name="cancel" value="キャンセル" type="submit" class="up_del" id="btn_cancel" asp-route-name="cancel" />
+        <input name="del" value="削除" type="submit" class="up_del" id="btn_del" asp-route-name="delete" />
+    </form>
+</section>
+
+
