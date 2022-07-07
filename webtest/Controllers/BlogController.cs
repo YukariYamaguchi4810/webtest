@@ -20,9 +20,8 @@ namespace webtest.Controllers
     {
         private readonly ILogger<BlogController> _logger;
 
-        //jsonファイルバス変更
-        //private const string FilePath = "/Users/yukyamaguchi/Projects/webtest/webtest/Data";
-        private const string FilePath = "C:/Users/YukYamaguchi.WISEMAN.CO.JP/source/repos/webtest/webtest/Data";
+        //jsonファイルパス
+        private string FilePath = Directory.GetCurrentDirectory() + "/Data";
         //jsonファイル名
         private const string FileName = "blog.json";
 
